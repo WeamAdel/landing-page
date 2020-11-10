@@ -63,44 +63,66 @@
   window.addEventListener("scroll", handleActiveSection);
 
   function getSectionPositionData() {
-    const sectionsPositions = [];
+    const sectionsPositions = {};
 
     for (let section of sections) {
-      //   const sectionId = section.id;
       const sectionTopOffset = section.offsetTop;
       const sectionHeight = section.offsetHeight;
 
-      sectionsPositions.push({
-        section,
+      sectionsPositions[section.id] = {
+        elem: section,
         top: sectionTopOffset,
-        bottom: sectionTopOffset + sectionHeight,
+        height: sectionHeight,
+        bottom: sectionTopOffset + sectionHeight / 2,
         anchor: document.getElementById("nav-link-" + section.id),
-      });
+      };
     }
 
     return sectionsPositions;
   }
 
-  const sectionPossitions = getSectionPositionData();
+  let sectionPositions = getSectionPositionData();
 
-  function handleActiveSection(e) {
+  console.log(sectionPositions);
+  let counterH = 0;
+  let counterT = 0;
+  let timeout = 0;
+  function handleActiveSection() {
+    // console.log("times h: ", ++counterH);
+    // setTimeout(() => {
+    //   clearTimeout(timeout);
+    // }, 100);
+    // timeout = setTimeout(function () {
+    //   console.log("times time: ", counterT++);
     const scrollPosition = window.scrollY;
     const windowHeight = window.innerHeight;
-    const viewBoundary = scrollPosition + windowHeight - 120; //120 is the padding
 
-    for (let section of sectionPossitions) {
-      if (section.top <= viewBoundary && section.bottom >= viewBoundary) {
-        section.section.classList.add("active");
+    for (let sectionId in sectionPositions) {
+      const section = sectionPositions[sectionId];
+      const viewBoundary = scrollPosition - 200; //120 is the padding
+      console.log("s", scrollPosition);
+      console.log("o", window.pageYOffset);
+      if (
+        section.top <= viewBoundary + windowHeight &&
+        section.bottom >= viewBoundary + windowHeight / 2
+      ) {
+        section.elem.classList.add("active");
         section.anchor.classList.add("active");
       } else {
-        section.section.classList.remove("active");
+        section.elem.classList.remove("active");
         section.anchor.classList.remove("active");
       }
     }
+    // }, 300);
   }
 
-  // Scroll to anchor ID using scrollTO event
+  //Handle window resizing and recalculate positions, then determin the active section
+  window.addEventListener("resize", function () {
+    sectionPositions = getSectionPositionData();
+    handleActiveSection();
+  });
 
+  // Scroll to anchor ID using scrollTO event
   /**
    * End Main Functions
    * Begin Events
@@ -108,8 +130,36 @@
    */
 
   // Build menu
+  const toggler = document.getElementById("toggle-menu");
+
+  toggler.addEventListener("click", toggleNavMenu);
+  window.addEventListener("resize", closeNavMenu); //close menu on screen resize to large screen
+
+  function toggleNavMenu() {
+    navList.classList.toggle("show");
+  }
+
+  function closeNavMenu() {
+    if (window.innerWidth >= 676) {
+      navList.classList.remove("show");
+    }
+  }
 
   // Scroll to section on link click
+  navList.addEventListener("click", handleNavbarScroll);
+
+  function handleNavbarScroll(e) {
+    e.preventDefault();
+    const target = e.target;
+    if (target.id) {
+      const sectionId = target.id.replace("nav-link-", "");
+
+      window.scroll({
+        top: sectionPositions[sectionId].top,
+        behavior: "smooth",
+      });
+    }
+  }
 
   // Set sections as active
 })();
