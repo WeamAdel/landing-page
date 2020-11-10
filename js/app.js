@@ -37,20 +37,18 @@
   // build the nav
   const navbarFragment = document.createDocumentFragment();
 
-  for (let i = 0; i < sections.length; i++) {
-    const section = sections[i];
+  for (let section of sections) {
     const dataNav = section.dataset.nav;
-    const listItem = generateNavListItem(dataNav, i == 0);
+    const listItem = generateNavListItem(dataNav);
     navbarFragment.appendChild(listItem);
   }
 
   navList.appendChild(navbarFragment);
 
-  function generateNavListItem(content, isActive) {
+  function generateNavListItem(content) {
     const li = document.createElement("li");
     const a = document.createElement("a");
 
-    if (isActive) a.classList.add("active");
     a.id = "nav-link-" + content;
     a.innerText = content;
     a.setAttribute("href", "#" + content);
@@ -94,14 +92,13 @@
     // }, 100);
     // timeout = setTimeout(function () {
     //   console.log("times time: ", counterT++);
-    const scrollPosition = window.scrollY;
+    const scrollY = window.scrollY;
     const windowHeight = window.innerHeight;
 
     for (let sectionId in sectionPositions) {
       const section = sectionPositions[sectionId];
-      const viewBoundary = scrollPosition - 200; //120 is the padding
-      console.log("s", scrollPosition);
-      console.log("o", window.pageYOffset);
+      const viewBoundary = scrollY - 200; //120 is the padding
+
       if (
         section.top <= viewBoundary + windowHeight &&
         section.bottom >= viewBoundary + windowHeight / 2
@@ -140,7 +137,7 @@
   }
 
   function closeNavMenu() {
-    if (window.innerWidth >= 676) {
+    if (window.innerWidth >= 767) {
       navList.classList.remove("show");
     }
   }
@@ -161,5 +158,31 @@
     }
   }
 
-  // Set sections as active
+  //scroll to top button
+  const scrollTopButton = document.getElementById("scroll-top");
+  scrollTopButton.addEventListener("click", scrollToTopHandler);
+  function scrollToTopHandler() {
+    window.scroll({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
+  //show and hide scroll to top button when exceeding the header
+  window.addEventListener("scroll", toggleScrollTopHandler);
+  window.addEventListener("reseize", toggleScrollTopHandler);
+
+  function toggleScrollTopHandler() {
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+
+    if (scrollY > windowHeight - 60) {
+      scrollTopButton.style.display = "block";
+    } else {
+      scrollTopButton.style.display = "none";
+    }
+  }
+
+  //trigger the scroll on page load to handle already scrolled page
+  window.scroll();
 })();

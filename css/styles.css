@@ -95,7 +95,6 @@ h2 {
 .main-navbar ul li a.active {
   background-color: var(--accent-900);
 }
-
 /* Small Screen Navigation */
 main-navbar ul.show {
   opacity: 1;
@@ -169,8 +168,36 @@ main > section.active {
 }
 /* End Sections */
 
+/* Start Scroll To Top Button */
+.scroll-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2;
+  border: none;
+  background-color: var(--main-900);
+  color: white;
+  box-shadow: 0 0 0.5rem var(--accent-900);
+  cursor: pointer;
+  display: block;
+  padding: 24px;
+  transition: opacity 0.25s ease-in-out;
+  display: none;
+}
+
+.scroll-top:hover {
+  opacity: 0.85;
+}
+
+@media (min-width: 767px) {
+  .scroll-top {
+    right: 60px;
+  }
+}
+/* End Scroll To Top Button */
+
 /* Footer Styles */
-/* ---- Theme Rules ---- */
+
 /* Landing Container Styles */
 .container {
   padding: 0 20px;
