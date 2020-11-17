@@ -2,6 +2,8 @@
   // Defining Global Variables
   const sections = document.querySelectorAll("main > section");
   const navList = document.getElementById("navbar-list");
+  //Used to show navbar on first load/reload
+  let initialRender = true;
 
   // build the nav
   const navbarFragment = document.createDocumentFragment();
@@ -57,9 +59,17 @@
       - wrapped it in another timeout to to see the active section/nav link
         onScrolling not just when the user stops scrolling.
     */
-    setTimeout(() => {
-      clearTimeout(activeSectionTimeoutId);
-    }, 100);
+
+    /* 
+      Only clear the timeout if the page is already rendered,
+      otherwise the active class will not be added to the section 
+      if the page already scrolled and reloaded again
+  */
+    if (!initialRender) {
+      setTimeout(() => {
+        clearTimeout(activeSectionTimeoutId);
+      }, 100);
+    }
 
     activeSectionTimeoutId = setTimeout(function () {
       const scrollY = window.scrollY;
@@ -148,13 +158,12 @@
 
   //hide navbar on scroll
   const navbar = document.querySelector(".main-navbar");
-  let initialRender = true;
 
   window.addEventListener("scroll", handleHideNavbar);
   let timeoutId = null;
 
   function handleHideNavbar() {
-    //Always show the nav on first page load
+    //Always show the nav on first page load/reload
     if (initialRender) {
       initialRender = false;
     } else {
