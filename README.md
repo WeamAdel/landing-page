@@ -3,8 +3,8 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Files Structure](#structure)
-- [JS Functionality](#functionality)
+- [Files Structure](#files-structure)
+- [JS Functionality](#js-functionality)
 
 ## Introduction
 
