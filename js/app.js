@@ -80,37 +80,40 @@
   }
 
   let sectionPositions = getSectionPositionData();
-
-  console.log(sectionPositions);
-  let counterH = 0;
-  let counterT = 0;
-  let timeout = 0;
+  let activeSectionTimeoutId = null;
   function handleActiveSection() {
-    // console.log("times h: ", ++counterH);
-    // setTimeout(() => {
-    //   clearTimeout(timeout);
-    // }, 100);
-    // timeout = setTimeout(function () {
-    //   console.log("times time: ", counterT++);
-    const scrollY = window.scrollY;
-    const windowHeight = window.innerHeight;
+    /* 
+      - clear previous timeout to delay excessive calculations.
+      - wrapped it in another timeout to to see the active section/nav link
+        onScrolling not just when the user stops scrolling.
+    */
+    setTimeout(() => {
+      clearTimeout(activeSectionTimeoutId);
+    }, 100);
 
-    for (let sectionId in sectionPositions) {
-      const section = sectionPositions[sectionId];
-      const viewBoundary = scrollY - 200; //120 is the padding
+    activeSectionTimeoutId = setTimeout(function () {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
 
-      if (
-        section.top <= viewBoundary + windowHeight &&
-        section.bottom >= viewBoundary + windowHeight / 2
-      ) {
-        section.elem.classList.add("active");
-        section.anchor.classList.add("active");
-      } else {
-        section.elem.classList.remove("active");
-        section.anchor.classList.remove("active");
+      for (let sectionId in sectionPositions) {
+        const section = sectionPositions[sectionId];
+        const viewBoundary = scrollY - 200; //120 is the padding
+
+        if (
+          section.top <= viewBoundary + windowHeight &&
+          section.bottom >= viewBoundary + windowHeight / 2
+        ) {
+          section.elem.classList.add("active");
+          section.anchor.classList.add("active");
+        } else {
+          section.elem.classList.remove("active");
+          section.anchor.classList.remove("active");
+        }
+        if (scrollY + windowHeight == document.body.scrollHeight) {
+          alert("bottom!");
+        }
       }
-    }
-    // }, 300);
+    }, 300);
   }
 
   //Handle window resizing and recalculate positions, then determin the active section
@@ -118,13 +121,6 @@
     sectionPositions = getSectionPositionData();
     handleActiveSection();
   });
-
-  // Scroll to anchor ID using scrollTO event
-  /**
-   * End Main Functions
-   * Begin Events
-   *
-   */
 
   // Build menu
   const toggler = document.getElementById("toggle-menu");
@@ -180,6 +176,34 @@
       scrollTopButton.style.display = "block";
     } else {
       scrollTopButton.style.display = "none";
+    }
+  }
+
+  //hide navbar on scroll
+  const navbar = document.querySelector(".main-navbar");
+  let initialRender = true;
+
+  window.addEventListener("scroll", handleHideNavbar);
+  let timeoutId = null;
+
+  function handleHideNavbar() {
+    //Always show the nav on first page load
+    if (initialRender) {
+      initialRender = false;
+    } else {
+      //always show the nav if the user is near the top of the page
+      if (window.scrollY <= 60) {
+        navbar.style.display = "block";
+      } else {
+        navbar.style.display = "none";
+
+        //clearing previous timeout to avoid blinking navbar
+        clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(() => {
+          navbar.style.display = "block";
+        }, 1000);
+      }
     }
   }
 

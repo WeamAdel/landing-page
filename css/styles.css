@@ -23,18 +23,28 @@ h2 {
   font-size: 32px;
 }
 
+p {
+  max-width: 35rem;
+}
+
 /* Typeography General*/
 
 /* Start Main Header */
 .main-header {
   background-color: var(--main-900);
-  color: var(--light-100);
+  color: white;
+  text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 4px;
   /* View height - navbar height - top margin */
   min-height: calc(100vh - 60px - 4px);
+}
+
+.main-header p {
+  color: var(--gray-800);
+  font-size: 20px;
 }
 
 @media (min-width: 767px) {
@@ -54,6 +64,7 @@ h2 {
 
 .main-navbar * {
   color: white;
+  text-decoration: none;
 }
 
 .main-navbar .wrapper {
@@ -86,7 +97,6 @@ h2 {
 .main-navbar ul li a {
   display: inline-block;
   padding: 0 16px;
-  text-decoration: none;
   display: flex;
   align-items: center;
   height: 100%;
@@ -96,7 +106,7 @@ h2 {
   background-color: var(--accent-900);
 }
 /* Small Screen Navigation */
-main-navbar ul.show {
+.main-navbar ul.show {
   opacity: 1;
   position: fixed;
   z-index: 10;
