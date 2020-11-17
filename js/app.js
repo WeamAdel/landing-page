@@ -50,6 +50,7 @@
 
   let sectionPositions = getSectionPositionData();
   let activeSectionTimeoutId = null;
+
   function handleActiveSection() {
     /* 
       - clear previous timeout to delay excessive calculations.
@@ -77,9 +78,6 @@
         } else {
           section.elem.classList.remove("active");
           section.anchor.classList.remove("active");
-        }
-        if (scrollY + windowHeight == document.body.scrollHeight) {
-          alert("bottom!");
         }
       }
     }, 300);
