@@ -1,8 +1,8 @@
 :root {
-  --light-100: #e9e3e3;
-  --main-900: #4b2637;
-  --accent-900: #7d2941;
-  --gray-800: #b4a2a2;
+  --light-100: #f2f2f2;
+  --main-900: #111e6c;
+  --accent-900: #2039cc;
+  --gray-800: #d9d9d9;
 }
 
 /* ---- Base Rules ---- */
@@ -173,7 +173,7 @@ main > section {
 }
 
 main > section.active {
-  border-color: black;
+  border-color: var(--main-900);
   background-color: var(--gray-800);
 }
 /* End Sections */

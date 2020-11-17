@@ -1,38 +1,7 @@
 (function () {
-  /**
-   *
-   * Manipulating the DOM exercise.
-   * Exercise programmatically builds navigation,
-   * scrolls to anchors from navigation,
-   * and highlights section in viewport upon scrolling.
-   *
-   * Dependencies: None
-   *
-   * JS Version: ES2015/ES6
-   *
-   * JS Standard: ESlint
-   *
-   */
-
-  /**
-   * Define Global Variables
-   *
-   */
-
+  // Defining Global Variables
   const sections = document.querySelectorAll("main > section");
   const navList = document.getElementById("navbar-list");
-
-  /**
-   * End Global Variables
-   * Start Helper Functions
-   *
-   */
-
-  /**
-   * End Helper Functions
-   * Begin Main Functions
-   *
-   */
 
   // build the nav
   const navbarFragment = document.createDocumentFragment();
@@ -57,7 +26,7 @@
     return li;
   }
 
-  // Add class 'active' to section when near top of viewport
+  // Add class 'active' to section & corresponding nav item when near top of viewport
   window.addEventListener("scroll", handleActiveSection);
 
   function getSectionPositionData() {
@@ -97,7 +66,7 @@
 
       for (let sectionId in sectionPositions) {
         const section = sectionPositions[sectionId];
-        const viewBoundary = scrollY - 200; //120 is the padding
+        const viewBoundary = scrollY - 120; //200 is the padding
 
         if (
           section.top <= viewBoundary + windowHeight &&
@@ -122,7 +91,7 @@
     handleActiveSection();
   });
 
-  // Build menu
+  // Toggle small screen nav menu
   const toggler = document.getElementById("toggle-menu");
 
   toggler.addEventListener("click", toggleNavMenu);

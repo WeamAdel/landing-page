@@ -2,12 +2,28 @@
 
 ## Table of Contents
 
-* [Instructions](#instructions)
+- [Introduction](#introduction)
+- [Files Structure](#structure)
+- [JS Functionality](#functionality)
 
-## Instructions
+## Introduction
 
-The starter project has some HTML and CSS styling to display a static version of the Landing Page project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+First **FWD** task project of the professional web development track.
+This project is a landing page for a _news website_ in my case where the user can nicely scroll to the desired section and get sections currently in the viewport highleted as active besides their corresponding navbar link.
 
-To get started, open `js/app.js` and start building out the app's functionality
+## Files Structure
 
-For specific, detailed instructions, look at the project instructions in the Udacity Classroom.
+- index.html
+- js
+  - app.js
+- css
+  - styles.css
+
+## JS Functionality
+
+1. Build _navbar_ list items dynamically.
+1. Add class **active** on scroll to the section in viewport and to the corresponding _nav link_.
+1. Toggle small screen _nav menu_.
+1. Scroll to section on _link_ click.
+1. Scroll to **top** button.
+1. Hide _navbar_ on scrolling.
